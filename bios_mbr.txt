@@ -3,5 +3,5 @@ unit: sectors
 sector-size: 512
 
 start=2048,size=1GiB,type=83,bootable
-          ,size=4GiB,type=S ,
-          ,         ,type=83,
+size=4GiB,type=S
+type=83
