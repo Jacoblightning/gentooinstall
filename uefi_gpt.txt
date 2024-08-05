@@ -2,6 +2,6 @@ label: gpt
 unit: sectors
 sector-size: 512
 
-start=2048,size=1GiB,type=U ,
-          ,size=4GiB,type=S ,
-          ,         ,type=23,uuid=4f68bce3-e8cd-4db1-96e7-fbcaf984b709
+start=2048,size=1GiB,type=U
+size=4GiB,type=S
+type=4F68BCE3-E8CD-4DB1-96E7-FBCAF984B709
