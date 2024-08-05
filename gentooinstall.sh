@@ -18,7 +18,7 @@ fi
 
 echo "Testing DNS..."
 
-if ping -c 3 google.com;then #curl --location gentoo.org --output /dev/null > /dev/null 2>&1; then
+if curl --location gentoo.org --output /dev/null > /dev/null 2>&1; then
     echo "DNS Works"
 else
     echo "DNS does not work. Please fix this and rerun the script"
@@ -242,8 +242,8 @@ fi
 echo "Downloading and moving new script"
 wget "https://raw.githubusercontent.com/Jacoblightning/gentooinstall/main/finish_install.sh"
 
-echo "Runnins finish_install script"
-chroot /mnt/gentoo /bin/bash /finish_install.sh $installto
+echo "Running finish_install script"
+$croot /mnt/gentoo /bin/bash /finish_install.sh $installto
 
 umount -l /mnt/gentoo/dev{/shm,/pts,} 
 umount -R /mnt/gentoo 
