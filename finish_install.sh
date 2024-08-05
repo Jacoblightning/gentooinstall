@@ -31,7 +31,7 @@ echo "Re-syncing mirrors"
 emerge --sync
 
 read -p "Select a profile if you want. Press enter to view the list: "
-eselect profile list | less
+eselect profile list
 read -p "Select a profile or 0 to keep it as is: " prof
 
 if [ $prof != '0' ]; then
@@ -83,7 +83,8 @@ emerge --verbose --update --deep --newuse @world
 
 echo "Removing old packages"
 
-emerge --depclean
+echo "Please check this list and answer yes or no accordingly."
+emerge --ask --depclean
 
 if which systemctl; then
     echo "Systemd users, this script ends here. Please continue to manually finish from https://wiki.gentoo.org/wiki/Handbook:AMD64/Installation/Base#Optional:_Using_systemd_as_the_system_and_service_manager"
