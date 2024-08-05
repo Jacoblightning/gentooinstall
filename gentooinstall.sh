@@ -240,7 +240,7 @@ else
 fi
 
 echo "Downloading and moving new script"
-wget "https://raw.githubusercontent.com/Jacoblightning/gentooinstall/main/finish_install.txt"
+wget "https://raw.githubusercontent.com/Jacoblightning/gentooinstall/main/finish_install.sh"
 
 echo "Runnins finish_install script"
 chroot /mnt/gentoo /bin/bash /finish_install.sh $installto
