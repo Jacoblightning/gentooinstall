@@ -31,7 +31,7 @@ echo "Re-syncing mirrors"
 emerge --sync
 
 read -p "Select a profile if you want. Press enter to view the list: "
-eselect profile list
+eselect profile list | less
 read -p "Select a profile or 0 to keep it as is: " prof
 
 if [ $prof != '0' ]; then
