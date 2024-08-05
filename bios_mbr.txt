@@ -2,6 +2,6 @@ label: dos
 unit: sectors
 sector-size: 512
 
-start=2048,size=2097152,type=83,bootable
-          ,size=8388608,type=82,uuid=0657fd6d-a4ab-43c4-84e5-0933c84b4f4f 
-          ,               ,type=83,uuid=4f68bce3-e8cd-4db1-96e7-fbcaf984b709
+start=2048,size=1GiB,type=83,bootable
+          ,size=4GiB,type=S ,
+          ,         ,type=83,
