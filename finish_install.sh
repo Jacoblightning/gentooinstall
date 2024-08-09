@@ -68,10 +68,16 @@ echo "Configuring CPU flags"
 emerge --oneshot app-portage/cpuid2cpuflags
 echo "*/* $(cpuid2cpuflags)" > /etc/portage/package.use/00cpu-flags
 
+read -p "Enter your video cards separated by a space." vidcards
+
+echo "VIDEO_CARDS='${vidcards}'" >> /etc/portage/make.conf
+
 echo "Setting up licenses"
 
 echo -e "\n\n# Overrides the profile's ACCEPT_LICENSE default value" >> /etc/portage/make.conf
 echo 'ACCEPT_LICENSE="-* @FREE @BINARY-REDISTRIBUTABLE"' >> /etc/portage/make.conf
+
+mkdir --parents /etc/portage/package.license
 
 echo "app-arch/unrar unRAR" > /etc/portage/package.license/kernel
 echo "sys-kernel/linux-firmware linux-fw-redistributable" >> /etc/portage/package.license/kernel
