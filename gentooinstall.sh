@@ -18,7 +18,7 @@ fi
 
 echo "Testing DNS..."
 
-if curl --location gentoo.org --output /dev/null > /dev/null 2>&1; then
+if ping -c 3 google.com; then #curl --location gentoo.org --output /dev/null > /dev/null 2>&1; then
     echo "DNS Works"
 else
     echo "DNS does not work. Please fix this and rerun the script"
