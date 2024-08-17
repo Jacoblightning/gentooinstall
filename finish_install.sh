@@ -94,7 +94,7 @@ emerge --ask --depclean
 
 if which systemctl; then
     echo "Systemd users, this script ends here. Please continue to manually finish from https://wiki.gentoo.org/wiki/Handbook:AMD64/Installation/Base#Optional:_Using_systemd_as_the_system_and_service_manager"
-    exit
+    echo "gl"; exit
 fi
 
 echo "Generating locales"
