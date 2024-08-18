@@ -3,6 +3,7 @@
 source /etc/profile 
 
 runningon=$1
+is_desktop=$2
 
 if [[ "$runningon" == *"nvme"* ]]; then
     drivepref="${runningon}p"
@@ -33,6 +34,10 @@ emerge --sync
 read -p "Select a profile if you want. Press enter to view the list: "
 eselect profile list | less
 read -p "Select a profile or 0 to keep it as is: " prof
+if [ -z $prof ];then
+    prof="0"
+    echo 'Empty answer corrected from "" to "0"'
+fi
 
 if [ $prof != '0' ]; then
     eselect profile set $prof
@@ -68,7 +73,7 @@ echo "Configuring CPU flags"
 emerge --oneshot app-portage/cpuid2cpuflags
 echo "*/* $(cpuid2cpuflags)" > /etc/portage/package.use/00cpu-flags
 
-read -p "Enter your video cards separated by a space." vidcards
+read -p "Enter your video cards separated by a space. (radeon, nouveau, etc...)" vidcards
 
 echo "VIDEO_CARDS='${vidcards}'" >> /etc/portage/make.conf
 
@@ -109,6 +114,7 @@ emerge --config sys-libs/timezone-data
 
 echo 'LC_COLLATE="C.UTF-8"' >> /etc/env.d/02locale
 echo 'LANG="en_US.UTF-8"' >> /etc/env.d/02locale
+eselect locale set C.utf8
 
 env-update && source /etc/profile 
 
@@ -167,3 +173,51 @@ else
     grub-install $runningon
 fi
 grub-mkconfig -o /boot/grub/grub.cfg
+
+gnomed=0
+if [ $is_desktop -eq 1 ] && [ $prof -eq 25 ]; then
+    gnomed=1
+    echo "You chose profile 25, you are the lucky winner (We will actually install and set up the gui for you.)"
+    echo "Setting USE Flags"
+    echo -e "\n\n#Setting USE flags" >> /etc/portage/make.conf
+    echo "Calculating avalible disk space."
+    if [ $(df -k . --output=avail | sed "2q;d") -gt 20971520 ]; then
+        echo 'USE="$USE X gnome gtk -kde"' >> /etc/portage/make.conf
+        echo "Fully installing gnome (you probably have enough space.)"
+        USE="minimal" emerge --oneshot libsndfile
+        emerge gnome-base/gnome
+    elif [ $(df -k . --output=avail | sed "2q;d") -gt 5242880 ]
+        echo 'USE="$USE X gnome gtk -kde -gnome-online-accounts"' >> /etc/portage/make.conf
+        mkdir -p /etc/portage/package.use
+        echo "gnome-base/nautilus -previewer" >> /etc/portage/package.use/nautilus
+        echo "Minimally installing gnome (space is limited)"
+        emerge gnome-base/gnome-light
+    else
+        gnomed=0
+        echo "Not installing gnome (You dont have enough space)"
+    fi
+fi
+setplug=0
+if [ $gnomed -eq 1 ]; then
+    rc-update add elogind boot
+    emerge --noreplace gui-libs/display-manager-init
+    rc-update add display-manager default
+    echo 'DISPLAYMANAGER="gdm"' > /etc/conf.d/display-manager
+    if getent group plugdev;then
+        # We just set an env var because other users dont exist yet
+        setplug=1
+    fi
+fi
+
+read -p "Would you like to add a user? (this is always ye if you chose profile 25) (Y/N): " confirm
+if [[ $confirm == [yY] || $confirm == [yY][eE][sS] ]] || [ $gnomed -eq 1 ]; then
+    read -p "Enter the new user's name: " newname
+    useradd -m -G users,wheel,audio -s /bin/bash "$newname"
+    passwd "$newname"
+    echo "Disabling root login"
+    passwd -dl root
+    if [ $setplug -eq 1 ]; then
+        gpasswd -a "$newname" plugdev
+    fi
+fi
+rm /stage3-*.tar.*

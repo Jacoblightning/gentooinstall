@@ -239,15 +239,26 @@ else
     croot=chroot
 fi
 
+desk=0
+
+if [ "$systype" == "desktop" ]; then
+    desk=1
+fi
+
 echo "Downloading and moving new script"
 wget "https://raw.githubusercontent.com/Jacoblightning/gentooinstall/main/finish_install.sh"
 
 echo "Running finish_install script"
-$croot /mnt/gentoo /bin/bash /finish_install.sh $installto
+$croot /mnt/gentoo /bin/bash /finish_install.sh $installto $desk
 
 umount -l /mnt/gentoo/dev{/shm,/pts,} 
 umount -R /mnt/gentoo 
 
-echo "Gentoo is Installed!!!"
-read -p "Press enter to reboot!!!"
-reboot
+if [ "$initsystem" == "systemd" ]; then
+    echo "Have fun installing the rest!"
+    chroot /mnt/gentoo /bin/bash
+else
+    echo "Gentoo is Installed!!!"
+    read -p "Press enter to reboot!!!"
+    reboot
+fi
