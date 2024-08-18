@@ -186,7 +186,7 @@ if [ $is_desktop -eq 1 ] && [ $prof -eq 25 ]; then
         echo "Fully installing gnome (you probably have enough space.)"
         USE="minimal" emerge --oneshot libsndfile
         emerge gnome-base/gnome
-    elif [ $(df -k . --output=avail | sed "2q;d") -gt 5242880 ]
+    elif [ $(df -k . --output=avail | sed "2q;d") -gt 5242880 ]; then
         echo 'USE="$USE X gnome gtk -kde -gnome-online-accounts"' >> /etc/portage/make.conf
         mkdir -p /etc/portage/package.use
         echo "gnome-base/nautilus -previewer" >> /etc/portage/package.use/nautilus
