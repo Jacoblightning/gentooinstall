@@ -217,6 +217,7 @@ tar xpvf $filename --xattrs-include='*.*' --numeric-owner
 
 echo "Setting Flags"
 sed -i -e 's/COMMON_FLAGS="-O2 -pipe"/COMMON_FLAGS="-march=native -O2 -pipe"/g' etc/portage/make.conf
+echo -e '\n\nRUSTFLAGS="${RUSTFLAGS} -C target-cpu=native"' >> etc/portage/make.conf
 
 echo "Preparing to chroot..."
 cp --dereference /etc/resolv.conf /mnt/gentoo/etc/
