@@ -142,8 +142,11 @@ ${drivepref}3 / xfs defaults,noatime 0 1
 
 /dev/cdrom /mnt/cdrom auto noauto,user 0 0" >> /etc/fstab
 
-read -p "Enter your new hostname: " hname
-echo "$hname" > /etc/hostname
+#read -p "Enter your new hostname: " hname
+#echo "$hname" > /etc/hostname
+
+# Hostname input appeared to be breaking often (at least for me) so use a static hostname that can be changed later
+echo "gentoo" > /etc/hostname
 
 echo "Configuring network"
 emerge net-misc/dhcpcd
