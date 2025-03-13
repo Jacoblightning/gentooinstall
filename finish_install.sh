@@ -50,7 +50,7 @@ if [[ $confirm == [yY] || $confirm == [yY][eE][sS] ]]; then
     echo "priority = 9999" >> /etc/portage/binrepos.conf/gentoobinhost.conf
     
     echo "Calculating current version"
-    version=$(curl "https://distfiles.gentoo.org/releases/amd64/binpackages/" | grep -oE '[0-9]{2,}\.[0-9]+' | sed 1q)
+    version=$(wget --output-ducument=- "https://distfiles.gentoo.org/releases/amd64/binpackages/" | grep -oE '[0-9]{2,}\.[0-9]+' | sed 1q)
     
     read -p "Would you like hardened binary packages? (Y/N): " confirm
     if [[ $confirm == [yY] || $confirm == [yY][eE][sS] ]]; then
