@@ -103,7 +103,8 @@ done
 
 clear
 
-mirrors=("gentoo.osuosl.org" "distfiles.gentoo.org")
+#TODO: Add support for mirrors not hosted on top of a subdomain
+mirrors=("gentoo.osuosl.org" "distfiles.gentoo.org" "gentoo-mirror.flux.utah.edu" "gentoo.mirrors.tera-byte.com" "gentoo.c3sl.ufpr.br")
 gentoopart="/releases/amd64/autobuilds"
 startpart="/current-stage3-amd64-"
 
